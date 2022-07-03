@@ -3,9 +3,14 @@
 ## Run for Development.
 
 1. start database.
-    >
+    - `docker-compose up datastore`
 2. start backend
+    - `cd server`
+    - `./mvnw spring-boot:run`
 3. start frontend
+    - `cd client`
+    - `yarn`
+    - `yarn start`
 
 ## Run for Production
 
