@@ -4,5 +4,5 @@
 
 ## Run for Production
 
-1. `cd server && ./run.sh` [Make sure $JAVA_HOME is set]
-2. `docker-compose up --build`
+1. Make sure $JAVA_HOME is set
+2. `./run.sh`
