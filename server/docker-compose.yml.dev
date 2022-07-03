@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: nat2022Server
+    ports:
+      - '8000:8000'
+    expose:
+      - '8000'
+    depends_on:
+      - nat2022Datastore
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://nat2022Datastore:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  nat2022Datastore:
+    image: 'postgres:13.1-alpine'
+    container_name: nat2022Datastore
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres

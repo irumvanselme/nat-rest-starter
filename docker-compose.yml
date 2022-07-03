@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    expose:
+      - 80
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    container_name: nat_server
+    ports:
+      - '8000:8000'
+    expose:
+      - '8000'
+    depends_on:
+      - datastore
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://datastore:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  datastore:
+    image: 'postgres:13.1-alpine'
+    container_name: nat_datastore
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
