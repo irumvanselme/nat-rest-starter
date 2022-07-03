@@ -5,6 +5,8 @@ services:
     build:
       context: client
       dockerfile: Dockerfile
+    depends_on:
+      - server
     ports:
       - "80:80"
     expose:
