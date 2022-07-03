@@ -29,8 +29,10 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   datastore:
-    image: 'postgres:13.1-alpine'
-    container_name: nat_datastore
-    environment:
-      - POSTGRES_USER=compose-postgres
-      - POSTGRES_PASSWORD=compose-postgres
+    build:
+      context: database
+      dockerfile: Dockerfile
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
