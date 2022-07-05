@@ -20,7 +20,6 @@ export function ReadArticle() {
 
 	return (
 		<div className="container">
-			<hr />
 			<h3 className="fw-bold t-primary">{article.title}</h3>
 
 			<div className="mt-5">{article.body}</div>
