@@ -5,6 +5,8 @@ import Register from "./pages/auth/register";
 import Home from "./pages/site/home";
 import NotFound from "./pages/site/not-found";
 
+import "bootstrap/dist/js/bootstrap";
+
 import { ReadArticle } from "./pages/read-article";
 import NewArticle from "./pages/new-article";
 
