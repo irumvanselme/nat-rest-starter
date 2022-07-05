@@ -8,7 +8,13 @@ export default function FormControl({
 	return (
 		<div className="w-100 mt-3">
 			<div className="mb-3">
-				<label htmlFor={name} className="form-label">
+				<label
+					htmlFor={name}
+					className={
+						"form-label fs-15 " +
+						(errors.length > 0 ? "text-danger" : "")
+					}
+				>
 					{label}
 				</label>
 				{textarea ? (

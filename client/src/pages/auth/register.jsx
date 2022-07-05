@@ -4,16 +4,40 @@ import FormControl from "../../componets/form-control";
 import { post } from "../../utils/axios";
 import { submithandler } from "../../utils/submithandler";
 import { NotificationManager } from "react-notifications";
+import { useState } from "react";
+import { validate } from "../../utils/validator";
+import { setToken } from "../../utils/token";
 
 export default function Register() {
 	let navigate = useNavigate();
 
+	const [errors, setErrors] = useState({});
+
 	async function register(data) {
 		try {
+			let [passes, errors] = validate(data, {
+				fullNames: "required",
+				email: "required|email",
+				username: "required",
+				password: "required",
+			});
+
+			if (!passes) {
+				setErrors(errors);
+				return;
+			}
+
 			let res = await post("/api/auth/register", data);
 			console.log(res);
 
-			NotificationManager.success("Loggein Successfully");
+			let { data: token } = await post("/api/auth/signin", {
+				login: data.email,
+				password: data.password,
+			});
+
+			setToken(token);
+
+			NotificationManager.success("Registered Successfully");
 
 			navigate("/profile");
 		} catch (e) {
@@ -21,7 +45,7 @@ export default function Register() {
 				let message = Object.values(e.response.data)[0][0];
 				NotificationManager.error(message);
 			} else if (e.response.status === 404) {
-				NotificationManager.error("Bad Credentials");
+				NotificationManager.error("Failed to register");
 			}
 		}
 	}
@@ -31,10 +55,23 @@ export default function Register() {
 			<h2 className="t-primary fw-bold mt-5">Hello. Have an account</h2>
 			<div className={"mt-5 w-100"} style={{ maxWidth: 500 }}>
 				<form onSubmit={submithandler(register)} autoComplete={"false"}>
-					<FormControl label="Full Names" name={"fullNames"} />
-					<FormControl label="Email" name={"email"} />
-					<FormControl label="username" name={"username"} />
 					<FormControl
+						errors={errors.fullNames}
+						label="Full Names"
+						name={"fullNames"}
+					/>
+					<FormControl
+						errors={errors.email}
+						label="Email"
+						name={"email"}
+					/>
+					<FormControl
+						errors={errors.username}
+						label="Username"
+						name={"username"}
+					/>
+					<FormControl
+						errors={errors.password}
 						label="Password"
 						type="password"
 						name={"password"}
