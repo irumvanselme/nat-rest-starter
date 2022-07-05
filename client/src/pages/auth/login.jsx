@@ -9,6 +9,7 @@ import { validate } from "../../utils/validator";
 import { useState } from "react";
 
 import { NotificationManager } from "react-notifications";
+import AuthLayout from "../../layouts/auth-layout";
 
 export default function Login() {
 	let navigate = useNavigate();

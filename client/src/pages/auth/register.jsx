@@ -7,6 +7,7 @@ import { NotificationManager } from "react-notifications";
 import { useState } from "react";
 import { validate } from "../../utils/validator";
 import { setToken } from "../../utils/token";
+import AuthLayout from "../../layouts/auth-layout";
 
 export default function Register() {
 	let navigate = useNavigate();

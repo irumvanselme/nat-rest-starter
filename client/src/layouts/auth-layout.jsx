@@ -1,12 +1,14 @@
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { getToken } from "../utils/token";
+import { Link, useNavigate } from "react-router-dom";
+import { getToken, removeToken } from "../utils/token";
 
 export default function AuthLayout({ children }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [user, setUser] = useState({});
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		let token = getToken();
@@ -21,9 +23,14 @@ export default function AuthLayout({ children }) {
 		setIsLoggedIn(true);
 	}, []);
 
+	const logout = () => {
+		removeToken();
+		navigate("/auth/login");
+	};
+
 	return (
-		<div>
-			<div className="shadow py-3 position-sticky z-10 bg-white top-0">
+		<div className="vh-100 d-flex flex-column">
+			<div className="shadow-sm py-3 position-sticky z-10 bg-white top-0">
 				<div className="container d-flex justify-content-between align-items-center">
 					<div>
 						<Link to={"/"} className="text-decoration-none">
@@ -35,39 +42,71 @@ export default function AuthLayout({ children }) {
 					<div className="d-flex align-items-center">
 						{isLoggedIn ? (
 							<>
-								<div>
+								<div className="pr-5 bg-red-500">
 									<Link to={"/new-article"}>
 										<button className="btn btn-primary">
 											New Post
 										</button>
 									</Link>
 								</div>
-								<div className="mx-5">{user.username}</div>
+								<div className="dropdown">
+									<div
+										className="dropdown-toggle px-5"
+										type="button"
+										id="dropdownMenuButton1"
+										data-bs-toggle="dropdown"
+										aria-expanded="false"
+									>
+										{user.username}
+									</div>
+									<ul
+										className="dropdown-menu bg-white"
+										aria-labelledby="dropdownMenuButton1"
+									>
+										<li>
+											<a
+												className="dropdown-item"
+												href="#"
+												onClick={logout}
+											>
+												Log out
+											</a>
+										</li>
+									</ul>
+								</div>
 							</>
 						) : (
 							<>
 								<div className="mr-1 px-2">
-									<a
+									<Link
 										className="btn btn-primary"
-										href="/auth/login"
+										to="/auth/login"
 									>
 										Login
-									</a>
+									</Link>
 								</div>
 								<div className="px-2">
-									<a
+									<Link
 										className="btn btn-outline-primary"
-										href="/auth/register"
+										to="/auth/register"
 									>
 										Register
-									</a>
+									</Link>
 								</div>
 							</>
 						)}
 					</div>
 				</div>
 			</div>
-			<div className="pt-5">{children}</div>
+			<div
+				className="pt-5"
+				style={{
+					background: "#fafafa",
+					flexGrow: 1,
+				}}
+			>
+				{children}
+			</div>
 		</div>
 	);
 }

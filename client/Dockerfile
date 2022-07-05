@@ -10,8 +10,6 @@ COPY . .
 
 RUN yarn build
 
-RUN ls
-
 FROM  nginx:1.15
 
 COPY --from=build  /usr/app/build /usr/share/nginx/html
