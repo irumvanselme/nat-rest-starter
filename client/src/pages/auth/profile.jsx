@@ -21,5 +21,5 @@ export default function Profile() {
 		})();
 	}, []);
 
-	return <div>Profile here</div>;
+	return <div className="container">Profile here</div>;
 }

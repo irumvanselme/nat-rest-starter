@@ -40,7 +40,7 @@ export default function Register() {
 
 			NotificationManager.success("Registered Successfully");
 
-			navigate("/profile");
+			window.location.href = "/profile";
 		} catch (e) {
 			if (e.response.status === 400) {
 				let message = Object.values(e.response.data)[0][0];

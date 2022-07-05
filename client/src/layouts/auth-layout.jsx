@@ -25,7 +25,7 @@ export default function AuthLayout({ children }) {
 
 	const logout = () => {
 		removeToken();
-		navigate("/auth/login");
+		window.location.href = "/auth/login";
 	};
 
 	return (
@@ -63,6 +63,15 @@ export default function AuthLayout({ children }) {
 										className="dropdown-menu bg-white"
 										aria-labelledby="dropdownMenuButton1"
 									>
+										<li>
+											<Link
+												to={"/profile"}
+												className="dropdown-item"
+												href="#"
+											>
+												Profile
+											</Link>
+										</li>
 										<li>
 											<a
 												className="dropdown-item"
